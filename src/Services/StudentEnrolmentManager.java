@@ -22,10 +22,4 @@ public interface StudentEnrolmentManager {
     List<StudentEnrolment> getBySemester(String semester);
 
     void load(String csvFilePath, String delimiter);
-
-    static void print(List<StudentEnrolment> studentEnrolments) {
-        for (StudentEnrolment studentEnrolment : studentEnrolments) {
-            System.out.println(studentEnrolment);
-        }
-    }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
 
     List<StudentEnrolment> studentEnrolmentsList = new ArrayList<>();
-    static int index = 0;
+    private static int index = 0;
 
     public StudentEnrolmentManagerImpl(String csvFilePath, String delimiter) {
         load(csvFilePath, delimiter);
