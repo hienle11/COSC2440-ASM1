@@ -32,8 +32,16 @@ public class RmitEnrolmentSystem {
                     visibleEnrolments = searchEnrolmentsByStudentAndSemester();
                     SystemView.displayEnrolments(visibleEnrolments);
                     break;
+                case SEARCH_ENROLMENTS_BY_COURSE_AND_SEMESTER:
+                    visibleEnrolments = searchEnrolmentsByCourseAndSemester();
+                    SystemView.displayEnrolments(visibleEnrolments);
+                    break;
+                case SEARCH_ENROLMENTS_BY_SEMESTER:
+                    visibleEnrolments = searchEnrolmentsBySemester();
+                    SystemView.displayEnrolments(visibleEnrolments);
+                    break;
                 case INVALID:
-                  SystemView.displayInvalidInputMessage();
+                    SystemView.displayInvalidInputMessage();
             }
         } while (command != Option.EXIT);
     }
@@ -44,8 +52,19 @@ public class RmitEnrolmentSystem {
         return system.getByStudentAndSemester(studentId, semester);
     }
 
+    private static List<StudentEnrolment> searchEnrolmentsByCourseAndSemester() {
+        String courseId = getInput("course id");
+        String semester = getInput("semester");
+        return system.getByCourseAndSemester(courseId, semester);
+    }
+
+    private static List<StudentEnrolment> searchEnrolmentsBySemester() {
+        String semester = getInput("semester");
+        return system.getBySemester(semester);
+    }
+
     private static String getInput(String name) {
-        System.out.print("Enter " + name +": ");
+        System.out.print("Enter " + name + ": ");
         String input = sc.next();
         System.out.println(name + " received: " + input);
         sc.nextLine();
