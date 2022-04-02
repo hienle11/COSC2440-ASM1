@@ -16,7 +16,7 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
     List<Student> students = new ArrayList<>();
     List<Course> courses = new ArrayList<>();
 
-    private static int index = 0;
+    private static int index = 1;
 
     public StudentEnrolmentManagerImpl(String csvFilePath, String delimiter) {
         load(csvFilePath, delimiter);
