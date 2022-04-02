@@ -1,4 +1,6 @@
 import Enums.Option;
+import Models.Course;
+import Models.Student;
 import Models.StudentEnrolment;
 import Services.StudentEnrolmentManager;
 import Services.StudentEnrolmentManagerImpl;
@@ -40,12 +42,62 @@ public class RmitEnrolmentSystem {
                     visibleEnrolments = searchEnrolmentsBySemester();
                     SystemView.displayEnrolments(visibleEnrolments);
                     break;
+                case ENROLMENTS_ADD:
+                    processEnrolmentAddAction();
+                    break;
                 case INVALID:
                     SystemView.displayInvalidInputMessage();
             }
         } while (command != Option.EXIT);
     }
 
+    private static void processEnrolmentAddAction() {
+        Student selectedStudent;
+        do {
+            String studentId = getInput("student id");
+            selectedStudent = system.getStudentById(studentId);
+            if (selectedStudent == null) {
+                SystemView.displayStudentsWhenReceivingInvalidInput(system.getAllStudents());
+            }
+        } while (selectedStudent == null);
+
+        Course selectedCourse;
+        do {
+            String courseId = getInput("course id");
+            selectedCourse = system.getCourseById(courseId);
+            if (selectedCourse == null) {
+                SystemView.displayCoursesWhenReceivingInvalidInput(system.getAllCourses());
+            }
+        } while (selectedCourse == null);
+
+        String semester;
+        do {
+            semester = getInput("semester");
+            if (semester.length() < 5) {
+                System.out.println("Invalid semester format!");
+                continue;
+            }
+            try {
+                int year = Integer.parseInt(semester.substring(0,4));
+                if (year < 2022) {
+                    System.out.println("Year must be equal or greater than 2022!");
+                    continue;
+                }
+                char semCode = semester.charAt(4);
+                if (semCode == 'A' || semCode == 'B' || semCode == 'C') {
+                    break;
+                } else {
+                    System.out.println("Semester must be either 'A', 'B' or 'C'!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid semester format!");
+            }
+        } while(true);
+        StudentEnrolment newStudentEnrolment = new StudentEnrolment(selectedStudent, selectedCourse, semester);
+        System.out.println("----------------------------------------");
+        System.out.println("Added: " + system.add(newStudentEnrolment));
+        System.out.println("----------------------------------------");
+    }
     private static List<StudentEnrolment> searchEnrolmentsByStudentAndSemester() {
         String studentId = getInput("student id");
         String semester = getInput("semester");

@@ -1,11 +1,13 @@
 package Services;
 
+import Models.Course;
+import Models.Student;
 import Models.StudentEnrolment;
 
 import java.util.List;
 
 public interface StudentEnrolmentManager {
-    void add(StudentEnrolment studentEnrolment);
+    StudentEnrolment add(StudentEnrolment studentEnrolment);
 
     void update(StudentEnrolment studentEnrolment);
 
@@ -22,4 +24,12 @@ public interface StudentEnrolmentManager {
     List<StudentEnrolment> getBySemester(String semester);
 
     void load(String csvFilePath, String delimiter);
+
+    Student getStudentById(String studentId);
+
+    Course getCourseById(String courseId);
+
+    List<Student> getAllStudents();
+
+    List<Course> getAllCourses();
 }

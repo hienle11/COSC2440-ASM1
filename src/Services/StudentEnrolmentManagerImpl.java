@@ -13,6 +13,9 @@ import java.util.List;
 public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
 
     List<StudentEnrolment> studentEnrolmentsList = new ArrayList<>();
+    List<Student> students = new ArrayList<>();
+    List<Course> courses = new ArrayList<>();
+
     private static int index = 0;
 
     public StudentEnrolmentManagerImpl(String csvFilePath, String delimiter) {
@@ -20,9 +23,10 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
     }
 
     @Override
-    public void add(StudentEnrolment studentEnrolment) {
+    public StudentEnrolment add(StudentEnrolment studentEnrolment) {
         studentEnrolment.setId(index++);
         studentEnrolmentsList.add(studentEnrolment);
+        return studentEnrolment;
     }
 
     @Override
@@ -96,11 +100,46 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
                 Student student = new Student(tokens[0], tokens[1], tokens[2]);
                 Course course = new Course(tokens[3], tokens[4], Integer.parseInt(tokens[5]));
                 StudentEnrolment studentEnrolment = new StudentEnrolment(student, course, tokens[6]);
+                if (this.getStudentById(student.getId()) == null) {
+                    this.students.add(student);
+                }
+                if (this.getCourseById(course.getId()) == null) {
+                    this.courses.add(course);
+                }
                 add(studentEnrolment);
             }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load default file to populate data");
         }
+    }
+
+    @Override
+    public Student getStudentById(String studentId) {
+        for (Student student: students) {
+            if (student.getId().equalsIgnoreCase(studentId))
+                return student;
+        }
+        return null;
+    }
+
+    @Override
+    public Course getCourseById(String courseId) {
+        for (Course course: courses) {
+            if (course.getId().equalsIgnoreCase(courseId)) {
+                return course;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return this.students;
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return this.courses;
     }
 }
