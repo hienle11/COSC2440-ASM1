@@ -6,6 +6,9 @@ import Services.StudentEnrolmentManager;
 import Services.StudentEnrolmentManagerImpl;
 import Views.SystemView;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +24,8 @@ public class RmitEnrolmentSystem {
     public static void main(String[] args) {
         system = new StudentEnrolmentManagerImpl("src/default.csv", ",");
         System.out.println("Welcome to RMIT enrolment system");
+        visibleEnrolments = system.getAll();
+        SystemView.displayEnrolments(visibleEnrolments);
         sc = new Scanner(System.in);
         do {
             SystemView.displayOptions();
@@ -45,10 +50,58 @@ public class RmitEnrolmentSystem {
                 case ENROLMENTS_ADD:
                     processEnrolmentAddAction();
                     break;
+                case ENROLMENTS_DELETE:
+                    processEnrolmentDeleteAction();
+                    break;
+                case ENROLMENTS_EXPORT:
+                    exportToCsvFile();
+                    break;
                 case INVALID:
                     SystemView.displayInvalidInputMessage();
+                    break;
             }
         } while (command != Option.EXIT);
+    }
+
+    private static void exportToCsvFile() {
+        String filePath = getInput("Enter exported path");
+        File file = new File(filePath);
+        try {
+            FileWriter writer = new FileWriter(file);
+            for (StudentEnrolment enrolment : visibleEnrolments) {
+                String[] line = {enrolment.getStudent().getId(), enrolment.getStudent().getName(), enrolment.getStudent().getBirthdate(),
+                        enrolment.getCourse().getId(), enrolment.getCourse().getName(), String.valueOf(enrolment.getCourse().getCredits()),
+                        enrolment.getSemester()};
+                writer.append(String.join(",", line));
+                writer.append("\n");
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error! Could not export to CSV File!");
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
+
+    private static void processEnrolmentDeleteAction() {
+        StudentEnrolment selectedEnrolment = null;
+        do {
+            int enrolmentId = 0;
+            try {
+                enrolmentId = Integer.parseInt(getInput("enrolment id"));
+            } catch (NumberFormatException e) {
+                System.out.println("Id of enrolment is a number!");
+                continue;
+            }
+            selectedEnrolment = system.getOne(enrolmentId);
+            if (selectedEnrolment == null) {
+                System.out.println("---------------------------------------------");
+                System.out.println("There is no matching enrolments");
+                SystemView.displayEnrolments(system.getAll());
+            }
+        } while (selectedEnrolment == null);
+        system.delete(selectedEnrolment);
+        System.out.println("Deleted: " + selectedEnrolment);
     }
 
     private static void processEnrolmentAddAction() {
@@ -78,7 +131,7 @@ public class RmitEnrolmentSystem {
                 continue;
             }
             try {
-                int year = Integer.parseInt(semester.substring(0,4));
+                int year = Integer.parseInt(semester.substring(0, 4));
                 if (year < 2022) {
                     System.out.println("Year must be equal or greater than 2022!");
                     continue;
@@ -92,12 +145,13 @@ public class RmitEnrolmentSystem {
             } catch (NumberFormatException e) {
                 System.out.print("Invalid semester format!");
             }
-        } while(true);
+        } while (true);
         StudentEnrolment newStudentEnrolment = new StudentEnrolment(selectedStudent, selectedCourse, semester);
         System.out.println("----------------------------------------");
         System.out.println("Added: " + system.add(newStudentEnrolment));
         System.out.println("----------------------------------------");
     }
+
     private static List<StudentEnrolment> searchEnrolmentsByStudentAndSemester() {
         String studentId = getInput("student id");
         String semester = getInput("semester");

@@ -9,8 +9,6 @@ import java.util.List;
 public interface StudentEnrolmentManager {
     StudentEnrolment add(StudentEnrolment studentEnrolment);
 
-    void update(StudentEnrolment studentEnrolment);
-
     void delete(StudentEnrolment studentEnrolment);
 
     StudentEnrolment getOne(int id);

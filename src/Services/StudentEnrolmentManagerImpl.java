@@ -30,13 +30,6 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
     }
 
     @Override
-    public void update(StudentEnrolment updatedStudentEnrolment) {
-        StudentEnrolment studentEnrolment = getOne(updatedStudentEnrolment.getId());
-        studentEnrolmentsList.remove(studentEnrolment);
-        studentEnrolmentsList.add(studentEnrolment);
-    }
-
-    @Override
     public void delete(StudentEnrolment studentEnrolment) {
         studentEnrolmentsList.remove(studentEnrolment);
     }

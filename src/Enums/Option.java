@@ -10,10 +10,9 @@ public enum Option {
     SEARCH_ENROLMENTS_BY_COURSE_AND_SEMESTER(3),
     SEARCH_ENROLMENTS_BY_SEMESTER(4),
     ENROLMENTS_ADD(5),
-    ENROLMENTS_UPDATE(6),
-    ENROLMENTS_DELETE(7),
-    ENROLMENTS_EXPORT(8),
-    EXIT(9);
+    ENROLMENTS_DELETE(6),
+    ENROLMENTS_EXPORT(7),
+    EXIT(8);
 
     private final int value;
     private static final Map<Integer, Option> map = new HashMap<>();

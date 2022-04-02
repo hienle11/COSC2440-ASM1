@@ -14,10 +14,9 @@ public class SystemView {
         System.out.println("3. Search enrolments by course and semester");
         System.out.println("4. Search enrolments by semester");
         System.out.println("5. Add new enrolment");
-        System.out.println("6. Update an enrolment");
-        System.out.println("7. Delete an enrolment");
-        System.out.println("8. Export above enrolment list");
-        System.out.println("9. Exit");
+        System.out.println("6. Delete an enrolment");
+        System.out.println("7. Export above enrolment list");
+        System.out.println("8. Exit");
     }
 
     public static void displayInvalidInputMessage() {
