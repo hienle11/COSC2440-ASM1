@@ -21,8 +21,6 @@ public interface StudentEnrolmentManager {
 
     List<StudentEnrolment> getBySemester(String semester);
 
-    void load(String csvFilePath, String delimiter);
-
     Student getStudentById(String studentId);
 
     Course getCourseById(String courseId);

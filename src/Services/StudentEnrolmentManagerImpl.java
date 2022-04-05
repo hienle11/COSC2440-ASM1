@@ -83,7 +83,35 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
     }
 
     @Override
-    public void load(String csvFilePath, String delimiter) {
+    public Student getStudentById(String studentId) {
+        for (Student student : students) {
+            if (student.getId().equalsIgnoreCase(studentId))
+                return student;
+        }
+        return null;
+    }
+
+    @Override
+    public Course getCourseById(String courseId) {
+        for (Course course : courses) {
+            if (course.getId().equalsIgnoreCase(courseId)) {
+                return course;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return this.students;
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return this.courses;
+    }
+
+    private void load(String csvFilePath, String delimiter) {
         String line;
         try {
             BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
@@ -105,34 +133,5 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
             e.printStackTrace();
             System.out.println("Cannot load default file to populate data");
         }
-    }
-
-    @Override
-    public Student getStudentById(String studentId) {
-        for (Student student: students) {
-            if (student.getId().equalsIgnoreCase(studentId))
-                return student;
-        }
-        return null;
-    }
-
-    @Override
-    public Course getCourseById(String courseId) {
-        for (Course course: courses) {
-            if (course.getId().equalsIgnoreCase(courseId)) {
-                return course;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Student> getAllStudents() {
-        return this.students;
-    }
-
-    @Override
-    public List<Course> getAllCourses() {
-        return this.courses;
     }
 }
