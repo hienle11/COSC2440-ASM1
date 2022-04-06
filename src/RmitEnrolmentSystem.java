@@ -63,7 +63,7 @@ public class RmitEnrolmentSystem {
         } while (command != Option.EXIT);
     }
 
-    private static void exportToCsvFile() {
+    public static void exportToCsvFile() {
         String filePath = getInput("Enter exported path");
         File file = new File(filePath);
         try {
@@ -83,7 +83,7 @@ public class RmitEnrolmentSystem {
         }
     }
 
-    private static void processEnrolmentDeleteAction() {
+    public static void processEnrolmentDeleteAction() {
         StudentEnrolment selectedEnrolment = null;
         do {
             int enrolmentId = 0;
@@ -104,7 +104,7 @@ public class RmitEnrolmentSystem {
         System.out.println("Deleted: " + selectedEnrolment);
     }
 
-    private static void processEnrolmentAddAction() {
+    public static void processEnrolmentAddAction() {
         Student selectedStudent;
         do {
             String studentId = getInput("student id");
@@ -152,24 +152,24 @@ public class RmitEnrolmentSystem {
         System.out.println("----------------------------------------");
     }
 
-    private static List<StudentEnrolment> searchEnrolmentsByStudentAndSemester() {
+    public static List<StudentEnrolment> searchEnrolmentsByStudentAndSemester() {
         String studentId = getInput("student id");
         String semester = getInput("semester");
         return system.getByStudentAndSemester(studentId, semester);
     }
 
-    private static List<StudentEnrolment> searchEnrolmentsByCourseAndSemester() {
+    public static List<StudentEnrolment> searchEnrolmentsByCourseAndSemester() {
         String courseId = getInput("course id");
         String semester = getInput("semester");
         return system.getByCourseAndSemester(courseId, semester);
     }
 
-    private static List<StudentEnrolment> searchEnrolmentsBySemester() {
+    public static List<StudentEnrolment> searchEnrolmentsBySemester() {
         String semester = getInput("semester");
         return system.getBySemester(semester);
     }
 
-    private static String getInput(String name) {
+    public static String getInput(String name) {
         System.out.print("Enter " + name + ": ");
         String input = sc.next();
         System.out.println(name + " received: " + input);
@@ -177,7 +177,7 @@ public class RmitEnrolmentSystem {
         return input;
     }
 
-    private static Option getInputOption(int level) {
+    public static Option getInputOption(int level) {
         try {
             System.out.print("Select an option by enter a corresponding integer: ");
             return Option.valueOf(level * 10 + sc.nextInt());
