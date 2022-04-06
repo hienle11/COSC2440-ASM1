@@ -16,9 +16,10 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
     List<Student> students = new ArrayList<>();
     List<Course> courses = new ArrayList<>();
 
-    private static int index = 1;
+    private static int index;
 
     public StudentEnrolmentManagerImpl(String csvFilePath, String delimiter) {
+        index = 1;
         load(csvFilePath, delimiter);
     }
 
@@ -129,6 +130,7 @@ public class StudentEnrolmentManagerImpl implements StudentEnrolmentManager {
                 }
                 add(studentEnrolment);
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Cannot load default file to populate data");
